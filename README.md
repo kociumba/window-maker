@@ -31,4 +31,7 @@ Right now this is only a svlete package but svelte is a compiler so it can be co
     </WindowConstructor>
     ```
 
-        
+# Updates
+
+> new for 0.0.3:
+ 1. won't break if you use more than one component instance on the same page 😎

@@ -1,52 +1,74 @@
 <script>
-    // export let WindowConstructor
     import { onMount } from "svelte";
     export const ssr = false;
 
+    function assignUniqueIds() {
+        const windowHeads = document.querySelectorAll(".window-head");
+        const windowBodies = document.querySelectorAll(".window-body");
+
+        windowHeads.forEach((windowHead, index) => {
+            windowHead.id = `window-head-${index}`;
+        });
+
+        windowBodies.forEach((windowBody, index) => {
+            windowBody.id = `window-body-${index}`;
+        });
+    }
+
     function windowConstructor() {
-        // const windowHead = document.getElementById("window-head");
-        // const windowBody = document.getElementById("window-body");
+        const windowHeads = document.querySelectorAll(".window-head");
 
-        let isDragging = false;
-        let offsetX = 0;
-        let offsetY = 0;
+        windowHeads.forEach((currentWindowHead) => {
+            const index = currentWindowHead.id.split("-")[2];
+            const windowBody = document.getElementById(`window-body-${index}`);
 
-        windowHead.addEventListener("mousedown", startDrag);
-        windowHead.addEventListener("mousemove", drag);
-        windowHead.addEventListener("mouseup", stopDrag);
+            windowBody.style.position = "absolute";
+            windowBody.style.top = "0";
+            windowBody.style.left = "0";
 
-        function startDrag(event) {
-            isDragging = true;
-            offsetX =
-                event.clientX - parseInt(getComputedStyle(windowBody).left);
-            offsetY =
-                event.clientY - parseInt(getComputedStyle(windowBody).top);
-        }
+            let isDragging = false;
+            let offsetX = 0;
+            let offsetY = 0;
 
-        function drag(event) {
-            if (isDragging) {
-                const x = event.clientX - offsetX;
-                const y = event.clientY - offsetY;
-                windowBody.style.left = `${x}px`;
-                windowBody.style.top = `${y}px`;
+            currentWindowHead.addEventListener("mousedown", startDrag);
+            currentWindowHead.addEventListener("mousemove", drag);
+            currentWindowHead.addEventListener("mouseup", stopDrag);
+
+            function startDrag(event) {
+                isDragging = true;
+                offsetX =
+                    event.clientX - parseInt(getComputedStyle(windowBody).left);
+                offsetY =
+                    event.clientY - parseInt(getComputedStyle(windowBody).top);
             }
-        }
 
-        function stopDrag() {
-            isDragging = false;
-        }
+            function drag(event) {
+                if (isDragging) {
+                    const x = event.clientX - offsetX;
+                    const y = event.clientY - offsetY;
+                    windowBody.style.left = `${x}px`;
+                    windowBody.style.top = `${y}px`;
+                }
+            }
+
+            function stopDrag() {
+                isDragging = false;
+            }
+        });
     }
 
     let windowHead;
     let windowBody;
 
     onMount(() => {
-        windowHead = document.getElementById("window-head");
-        windowBody = document.getElementById("window-body");
+        assignUniqueIds();
 
-        windowBody.style.position = "absolute";
-        windowBody.style.top = "0";
-        windowBody.style.left = "0";
+        // windowHead = document.getElementById("window-head");
+        // windowBody = document.getElementById("window-body");
+
+        // windowBody.style.position = "absolute";
+        // windowBody.style.top = "0";
+        // windowBody.style.left = "0";
 
         //   windowHead.addEventListener("mousedown", startDrag);
         //   windowHead.addEventListener("mousemove", drag);
@@ -57,7 +79,7 @@
 </script>
 
 <div class="body">
-        <slot />
+    <slot />
 </div>
 
 <!-- <style>
