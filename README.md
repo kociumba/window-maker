@@ -1,4 +1,4 @@
-# Window maker 3000
+# Window maker
 
 This is a very small npm package for creating draggable windows on a webpage.
 
@@ -33,5 +33,11 @@ Right now this is only a svlete package but svelte is a compiler so it can be co
 
 # Updates
 
+> new for 0.0.4:
+> 1. added `className` prop to the component to apply custom classes to the wrapper element
+> 2. foxed issues with z-index where the windows below would not be draggable (this is a temporary fix for now but it works ig)
+
+---
+
 > new for 0.0.3:
- 1. won't break if you use more than one component instance on the same page 😎
+> 1. won't break if you use more than one component instance on the same page 😎
