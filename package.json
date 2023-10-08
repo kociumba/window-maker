@@ -43,6 +43,6 @@
 	"types": "./dist/index.d.ts",
 	"type": "module",
 	"dependencies": {
-		"@sveltejs/adapter-static": "^2.0.3"
+		"window-maker": "^0.0.4"
 	}
 }
