@@ -33,6 +33,9 @@ Right now this is only a svlete package but svelte is a compiler so it can be co
 
 # Updates
 
+> new for 0.0.5:
+> 1. I forgor to make the package usable 💀 (should be fixed or at leas I hope so)
+
 > new for 0.0.4:
 > 1. added `className` prop to the component to apply custom classes to the wrapper element
 > 2. foxed issues with z-index where the windows below would not be draggable (this is a temporary fix for now but it works ig)
