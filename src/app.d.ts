@@ -9,4 +9,4 @@ declare global {
 	}
 }
 
-export {};
+export * from './lib/index.js';

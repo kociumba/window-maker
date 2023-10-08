@@ -1,6 +1,6 @@
 {
 	"name": "window-maker",
-	"version": "0.0.5",
+	"version": "0.0.9",
 	"license": "MIT",
 	"scripts": {
 		"dev": "vite dev",
@@ -43,6 +43,6 @@
 	"types": "./dist/index.d.ts",
 	"type": "module",
 	"dependencies": {
-		"window-maker": "^0.0.4"
+		"window-maker": "^0.0.9"
 	}
 }

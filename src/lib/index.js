@@ -1,2 +1,2 @@
 // Reexport your entry components here
-export { default as WindowConstructor } from './dist/WindowConstructor.js';
+export { default as WindowConstructor } from './windowConstructor/windowConstructor.svelte';
