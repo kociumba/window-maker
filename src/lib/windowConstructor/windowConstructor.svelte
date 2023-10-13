@@ -1,8 +1,10 @@
 <script>
     import { onMount } from "svelte";
+    import { writable } from "svelte/store";
     export let className;
     // export let boxShadow = false;
     export const ssr = false;
+    const draggedWindows = writable([]);
 
     function assignUniqueIds() {
         const windowHeads = document.querySelectorAll(".window-head");
@@ -41,9 +43,13 @@
     function windowConstructor() {
         const windowHeads = document.querySelectorAll(".window-head");
 
+        draggedWindows.set(Array.from(windowHeads).map((head) => head.id.split('-')[2]));
+
         windowHeads.forEach((currentWindowHead) => {
             const index = currentWindowHead.id.split("-")[2];
             const windowBody = document.getElementById(`window-body-${index}`);
+
+            console.log(index);
 
             // if (boxShadow && currentWindowHead.classList.contains("focused")) {
             //     windowBody.style.boxShadow = "0px 0px 10px black";
@@ -59,16 +65,27 @@
             let offsetX = 0;
             let offsetY = 0;
 
-            currentWindowHead.addEventListener("mousedown", startDrag);
-            currentWindowHead.addEventListener("mousemove", drag);
-            currentWindowHead.addEventListener("mouseup", stopDrag);
+            if (!currentWindowHead.classList.contains("eventfull")) {
+                currentWindowHead.addEventListener("mousedown", startDrag);
+                currentWindowHead.addEventListener("mousemove", drag);
+                currentWindowHead.addEventListener("mouseup", stopDrag);
+                currentWindowHead.classList.add("eventfull");
+            }
 
             function startDrag(event) {
-                isDragging = true;
-                offsetX =
-                    event.clientX - parseInt(getComputedStyle(windowBody).left);
-                offsetY =
-                    event.clientY - parseInt(getComputedStyle(windowBody).top);
+                if (!isDragging) {
+                    isDragging = true;
+                    offsetX =
+                        event.clientX -
+                        parseInt(getComputedStyle(windowBody).left);
+                    offsetY =
+                        event.clientY -
+                        parseInt(getComputedStyle(windowBody).top);
+
+                    draggedWindows.update((windows) => windows.filter((window) => window !== index));
+                    console.log(draggedWindows);
+                    // updateZIndex(index);
+                }
             }
 
             function drag(event) {
@@ -78,15 +95,47 @@
                     windowBody.style.left = `${x}px`;
                     windowBody.style.top = `${y}px`;
                     windowBody.style.zIndex = "1";
+
+                    // const otherWindowBodies = document.querySelectorAll(`.window-body:not(#window-body-${index})`);
+                    // otherWindowBodies.forEach((otherWindowBody) => {
+                    //     otherWindowBody.style.zIndex = "-1";
+                    // });
                 }
             }
 
             function stopDrag() {
                 isDragging = false;
+                zIndexUpdated = false;
+                // windowBody.style.zIndex = "-1";
 
-                windowBody.style.zIndex = "-1";
+                draggedWindows.update((windows) => [...windows, index]);
             }
         });
+    }
+
+    let zIndexUpdated = false;
+    let allWindows = [];
+
+    function updateZIndex(index) {              //TODO: make this work
+
+        if (draggedWindows.includes(index)) {
+            draggedWindows.splice(index, 1);
+        }
+
+        // const indexInDraggedWindows = draggedWindows.indexOf(index);
+        // if (indexInDraggedWindows !== -1) {
+        //     draggedWindows.splice(indexInDraggedWindows, 1);
+        // }
+
+        draggedWindows.push(index);
+
+        if (zIndexUpdated == false) {
+            // console.log(allWindows, "allWindows");
+            // console.log(allWindows.length, "allWindows.length");
+
+
+            zIndexUpdated = true; // Set the flag to indicate z-index has been updated
+        }
     }
 
     let windowHead;
@@ -110,7 +159,7 @@
     });
 </script>
 
-<div class={className}>
+<div class={className} id="window">
     <slot />
 </div>
 

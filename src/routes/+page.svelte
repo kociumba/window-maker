@@ -1,5 +1,6 @@
 <script>
     import { WindowConstructor } from "window-maker"
+    // import WindowConstructor from "../lib/windowConstructor/windowConstructor.svelte";
 
     // function copyCode() {
     //     navigator.clipboard.writeText("npm install window-maker")
