@@ -25,7 +25,7 @@ Right now this is only a svlete package but svelte is a compiler so it can be co
     ```html
     <WindowConstructor>
         <div id="window-body">
-            <div id="window-head">this is a the window head</div>
+            <div id="window-head">this is the window head</div>
             <div>this is the window content</div>
         </div>
     </WindowConstructor>
